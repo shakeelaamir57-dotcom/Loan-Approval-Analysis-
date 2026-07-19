@@ -1,0 +1,92 @@
+-- SQL Stored Procedures for PostgreSQL and MySQL
+-- Illustrates enterprise-level database procedures for reporting and automation.
+
+-- ============================================================================
+-- 1. POSTGRESQL FUNCTION: Get Analytics for a Property Area
+-- ============================================================================
+-- Run this block in PostgreSQL:
+--
+-- CREATE OR REPLACE FUNCTION fn_GetPropertyAnalytics(p_area VARCHAR(20))
+-- RETURNS TABLE(
+--     Total_Applicants BIGINT,
+--     Approved_Loans BIGINT,
+--     Approval_Rate NUMERIC,
+--     Average_Loan_Amount NUMERIC,
+--     Average_Applicant_Income NUMERIC
+-- ) AS $$
+-- BEGIN
+--     RETURN QUERY
+--     SELECT 
+--         COUNT(*),
+--         SUM(CASE WHEN Loan_Status = 'Y' THEN 1 ELSE 0 END),
+--         ROUND(SUM(CASE WHEN Loan_Status = 'Y' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2),
+--         ROUND(AVG(LoanAmount), 2),
+--         ROUND(AVG(ApplicantIncome), 2)
+--     FROM loan_cleaned
+--     WHERE Property_Area = p_area;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- Example Execution in PostgreSQL:
+-- SELECT * FROM fn_GetPropertyAnalytics('Semiurban');
+
+
+-- ============================================================================
+-- 2. MYSQL STORED PROCEDURE: Get Analytics for a Property Area
+-- ============================================================================
+-- Run this block in MySQL:
+--
+-- DELIMITER //
+--
+-- CREATE PROCEDURE sp_GetPropertyAnalytics(
+--     IN p_area VARCHAR(20)
+-- )
+-- BEGIN
+--     SELECT 
+--         COUNT(*) AS Total_Applicants,
+--         SUM(CASE WHEN Loan_Status = 'Y' THEN 1 ELSE 0 END) AS Approved_Loans,
+--         ROUND(SUM(CASE WHEN Loan_Status = 'Y' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS Approval_Rate,
+--         ROUND(AVG(LoanAmount), 2) AS Average_Loan_Amount,
+--         ROUND(AVG(ApplicantIncome), 2) AS Average_Applicant_Income
+--     FROM loan_cleaned
+--     WHERE Property_Area = p_area;
+-- END //
+--
+-- DELIMITER ;
+
+-- Example Execution in MySQL:
+-- CALL sp_GetPropertyAnalytics('Semiurban');
+
+
+-- ============================================================================
+-- 3. INTERACTIVE ELIGIBILITY RULES STORED PROCEDURE (MOCK ML RULE ENGINE)
+-- ============================================================================
+-- Simulates basic business rules for a credit officer's quick check.
+-- Run this block in MySQL:
+--
+-- DELIMITER //
+--
+-- CREATE PROCEDURE sp_CheckBasicEligibility(
+--     IN p_loan_id VARCHAR(20),
+--     OUT p_eligible VARCHAR(10)
+-- )
+-- BEGIN
+--     DECLARE v_credit_history INT;
+--     DECLARE v_total_income DOUBLE;
+--     DECLARE v_loan_amount DOUBLE;
+--     
+--     -- Fetch loan applicant attributes
+--     SELECT Credit_History, (ApplicantIncome + CoapplicantIncome), LoanAmount
+--     INTO v_credit_history, v_total_income, v_loan_amount
+--     FROM loan_cleaned
+--     WHERE Loan_ID = p_loan_id;
+--     
+--     -- Apply Business Rules: Credit History must be Good (1) and Income-to-Loan ratio must support it
+--     IF v_credit_history = 1 AND v_total_income >= (v_loan_amount * 1000 / 30) THEN
+--         SET p_eligible = 'ELIGIBLE';
+--     ELSE
+--         SET p_eligible = 'INELIGIBLE';
+--     END IF;
+-- END //
+--
+-- DELIMITER ;

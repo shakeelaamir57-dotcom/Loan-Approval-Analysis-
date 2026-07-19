@@ -1,0 +1,33 @@
+-- Database Initialization and Setup Script
+-- This file contains database creation commands and environment configuration details for MySQL and PostgreSQL.
+
+-- ============================================================================
+-- 1. POSTGRESQL DATABASE SETUP
+-- ============================================================================
+-- Run this in pgAdmin or psql shell:
+--
+-- CREATE DATABASE loan_prediction_db;
+-- CREATE USER banking_analyst WITH PASSWORD 'SecurePass123!';
+-- GRANT ALL PRIVILEGES ON DATABASE loan_prediction_db TO banking_analyst;
+
+-- ============================================================================
+-- 2. MYSQL DATABASE SETUP
+-- ============================================================================
+-- Run this in MySQL Workbench or mysql client:
+--
+-- CREATE DATABASE loan_prediction_db;
+-- CREATE USER 'banking_analyst'@'localhost' IDENTIFIED BY 'SecurePass123!';
+-- GRANT ALL PRIVILEGES ON loan_prediction_db.* TO 'banking_analyst'@'localhost';
+-- FLUSH PRIVILEGES;
+
+-- ============================================================================
+-- 3. SQLITE DATABASE SETUP (Embedded Connection in Python Notebooks)
+-- ============================================================================
+-- SQLite is utilized to run the queries locally in Jupyter Notebooks.
+-- The database file is located at: SQL/loan_database.db
+-- Inside Python, connection is initialized as:
+--
+-- import sqlite3
+-- conn = sqlite3.connect('SQL/loan_database.db')
+--
+-- The schema definition in create_tables.sql is executed against this file.

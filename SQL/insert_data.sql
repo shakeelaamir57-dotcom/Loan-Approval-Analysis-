@@ -1,0 +1,40 @@
+-- DML Script: Ingesting Loan Prediction Data
+-- Shows standard SQL bulk insert commands for PostgreSQL and MySQL.
+
+-- ============================================================================
+-- 1. POSTGRESQL BULK COPY
+-- ============================================================================
+-- Run this query to load the raw CSV data into PostgreSQL:
+--
+-- COPY loan_raw(Loan_ID, Gender, Married, Dependents, Education, Self_Employed,
+--               ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term,
+--               Credit_History, Property_Area, Loan_Status)
+-- FROM '/absolute/path/to/Dataset/raw/loan_prediction.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+
+-- ============================================================================
+-- 2. MYSQL LOAD DATA INFILE
+-- ============================================================================
+-- Run this query to load the raw CSV data into MySQL:
+--
+-- LOAD DATA INFILE '/absolute/path/to/Dataset/raw/loan_prediction.csv'
+-- INTO TABLE loan_raw
+-- FIELDS TERMINATED BY ','
+-- ENCLOSED BY '"'
+-- LINES TERMINATED BY '\n'
+-- IGNORE 1 ROWS
+-- (Loan_ID, Gender, Married, Dependents, Education, Self_Employed,
+--  ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term,
+--  Credit_History, Property_Area, Loan_Status);
+
+-- ============================================================================
+-- 3. PYSQLITE INGESTION MOCKUP (Demonstrates automated Python-to-DB insert)
+-- ============================================================================
+-- python -c "
+-- import pandas as pd
+-- import sqlite3
+-- conn = sqlite3.connect('SQL/loan_database.db')
+-- df = pd.read_csv('Dataset/raw/loan_prediction.csv')
+-- df.to_sql('loan_raw', conn, if_exists='replace', index=False)
+-- "
