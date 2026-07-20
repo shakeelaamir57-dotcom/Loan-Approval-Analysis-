@@ -61,6 +61,7 @@ Loan_Approval_Prediction/
 │
 ├── Images/                         # Generated charts, distributions, and XAI outputs
 ├── banking_analytics_performance_report.docx # Executive performance report
+├── Loan_Approval_Prediction_Presentation.pptx # 12-Slide PowerPoint presentation
 ├── requirements.txt                # Python package requirements
 ├── .gitignore                      # Excludes runtime checkpoints and binary model dumps
 └── README.md                       # Main documentation
