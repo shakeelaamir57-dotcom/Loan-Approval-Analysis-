@@ -27,12 +27,13 @@ Loan_Approval_Prediction/
 │   └── processed/    # Feature-engineered dataset ready for ML models
 │
 ├── SQL/
-│   ├── database.sql           # Database connection and credentials setup DDL
+├── SQL/
 │   ├── create_tables.sql      # DDL to initialize raw and cleaned table schemas
 │   ├── insert_data.sql        # Ingestion strategies (COPY, LOAD DATA INFILE)
 │   ├── cleaning_queries.sql   # Data auditing, range checks, and domain checks
 │   ├── views.sql              # Analytical views for Power BI reporting
 │   ├── stored_procedures.sql  # Procedures for automated reporting and scoring
+│   ├── analysis_queries.sql   # 30 Business Intelligence queries
 │   └── loan_database.db       # Embedded SQLite database containing clean tables
 │
 ├── Notebooks/
@@ -56,10 +57,10 @@ Loan_Approval_Prediction/
 │   └── test_splits.pkl             # Serialized training/testing subsets
 │
 ├── Dashboard/
-│   └── power_bi_instructions.md    # Design system, DAX measures, and visual configurations
+│   └── Loan Analysis Dashboard.pbix# Interactive Power BI report dashboard
 │
 ├── Images/                         # Generated charts, distributions, and XAI outputs
-│
+├── banking_analytics_performance_report.docx # Executive performance report
 ├── requirements.txt                # Python package requirements
 ├── .gitignore                      # Excludes runtime checkpoints and binary model dumps
 └── README.md                       # Main documentation
@@ -168,7 +169,7 @@ SHAP values explain the model's global logic and individual decisions:
 
 ## 7. Power BI Dashboard Specification
 
-A professional corporate dashboard layout is outlined in `Dashboard/power_bi_instructions.md`, featuring:
+A professional corporate dashboard is delivered in `Dashboard/Loan Analysis Dashboard.pbix`, featuring:
 - **KPI Cards**: Total Applicants, Approved, Rejected, Approval Rate, Average Loan Amount.
 - **Segmentation Visuals**: Approval rate by Property Area, Credit History, and Education level.
 - **DAX Calculations**: Standardized counting and division measures for portfolio analysis.
